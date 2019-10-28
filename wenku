@@ -1,0 +1,49 @@
+const
+   puppeteer = require("puppeteer"),
+	fs      = require('fs'),
+	cheerio = require('cheerio'),
+	charset = require('superagent-charset'),
+	request = require('superagent'),
+	xlsx    = require('node-xlsx');
+let pag =10,
+     url=[],
+    list=[];
+	 
+		async function demo() {
+			   const browser = await puppeteer.launch({ headless: false });
+			   const page = await browser.newPage();
+			   await page.goto("https://wenku.baidu.com/search?word=%B6%F9%CD%AF%D2%E6%C9%FA%BE%FA&org=0&fd=0&lm=1&od=0&pn="+pag);
+			   await page.waitFor(3000);
+		   
+			   const result = await page.evaluate(() => {
+			   let Html = document.querySelector("html").innerHTML;
+			   return Html
+		   });
+		    let
+		     $ = cheerio.load(result, {decodeEntities: true}),
+		     $itemMod = $('.logFirstClickTime').find('.fl'),
+			 len=$itemMod.length;
+			 
+			 if(len>0){
+				 pag+=10;
+				let data=[]
+				 $itemMod.each((i,e)=>{
+				 		 let $e=$(e),
+						    
+				 			 ArticleHref=$e.find('.log-xsend').attr('href');
+							 url.push(ArticleHref) 
+				});console.log(url)
+			}
+		 
+			
+			
+			
+			
+			await browser.close();
+			demo()
+		}
+		
+demo()
+		 
+	
+	

@@ -8,6 +8,7 @@ const
 let url="https://zhidao.baidu.com/search?word=%C9%C6%B4%E6&ie=gbk&site=-1&sites=0&date=0&pn=",
 	textUrl='',
 	regUrl= "?fr=iks&word=%C9%C6%B4%E6&ie=gbk",
+	list=[],
 	pagenum1=0;	
 		pageurl = async () =>{
 			const browser = await puppeteer.launch({ headless: false });
@@ -35,14 +36,16 @@ let url="https://zhidao.baidu.com/search?word=%C9%C6%B4%E6&ie=gbk&site=-1&sites=
 						
 					    await page.goto(textUrl);
 					    await page.waitFor(3000);
-					    const  ansText = await page.$eval('#qb-content > div.question-all-answers-number > span.question-all-answers-title', divs => divs.innerText),
+						const title=await page.$eval('#wgt-ask > h1 > span.ask-title', divs => divs.innerText),
+							  ansText = await page.$eval('#qb-content > div.question-all-answers-number > span.question-all-answers-title', divs => divs.innerText),
 					    	   regRemove=(/个回答/),
 					    	   ansCounts=ansText.replace(regRemove,''),
 					    	   pagenum=Math.ceil(ansCounts/5);
 							   
 					    	   let data = [],
-					    		   RegOver=(/展开全部/);
-					    		   decide=(/善存/)
+					    		   RegOver=(/展开全部/),
+					    		   decide=(/善存/);
+								   data.push(title);
 					    	   for(let i=0;i<pagenum;i++){
 					    			await page.goto(textUrl+"?sort=11&rn=5&pn="+i*5);
 					    			const result =  await page.evaluate(() =>{
@@ -62,12 +65,14 @@ let url="https://zhidao.baidu.com/search?word=%C9%C6%B4%E6&ie=gbk&site=-1&sites=
 					    						let bool=decide.test(article);
 					    						if(bool){
 					    							data.push(article)
+													list.push(data)
 					    						}
 					    				})															   
 					    			}
-					    			console.log(data)
 					    			
 					    	   }
+							   console.log(list)
+							 
 				 }
 				 
 			}	

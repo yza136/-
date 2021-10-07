@@ -12,7 +12,7 @@ let page = 10,
     list = [],
     start = '',
 	RegOver=(/展开全部/g),
-	RegCheck=(/健力多/g),
+	RegCheck=(/22/g),
 	ArticleHtml=""
 	article="",
 	ArticleHref="",
@@ -21,7 +21,8 @@ let page = 10,
     };
 
 start = ()=> {
-    request.get('https://zhidao.baidu.com/search?ct=17&pn=0&tn=ikaslist&rn=10&fr=wwwt&ie=utf-8&word=superagent+%E7%88%AC%E8%99%AB')
+	console.log(url+page)
+    request.get(url+page)
 	.set('Referer','https://www.baidu.com/s?wd=superagent%20%20%E6%96%87%E6%A1%A3&rsv_spt=1&rsv_iqid=0xf7e46e140001d1d1&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&rqlang=cn&tn=baiduhome_pg&rsv_dl=tb&rsv_enter=1&oq=superagent&rsv_btype=t&inputT=1520&rsv_t=d45av2gq4ktTyp%2FyTaq7MGe8fzfO%2BE%2FisOuAMiHv2yM9hTN4aAwtKl6GYrayCpjuexkr&rsv_pq=f3f196f70007ffae&rsv_sug3=36&rsv_sug1=32&rsv_sug7=100&rsv_sug2=0&rsv_sug4=2139')
 	.set( 'User-Agent',' Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4549.3 Safari/537.36')
 	.set( 'Host',' zhidao.baidu.com')
@@ -35,12 +36,12 @@ start = ()=> {
 				$ = cheerio.load(html, {decodeEntities: true}),    // 加载获取到的 html 数据console.log($)
 				$itemMod = $('.dl').find('.ti'),
 				len = $itemMod.length; 
-			console.log( $itemMod)
-			/*   let
-                    html =res.text,// 获取到数据
-                    $ = cheerio.load(html, {decodeEntities: true}),    // 加载获取到的 html 数据console.log($)
-                    $itemMod = $('.dl').find('.ti'),
-                    len = $itemMod.length; 
+			
+			  // let
+     //                html =res.text,// 获取到数据
+     //                $ = cheerio.load(html, {decodeEntities: true}),    // 加载获取到的 html 数据console.log($)
+     //                $itemMod = $('.dl').find('.ti'),
+     //                len = $itemMod.length; 
 			        
                 if(len > 0) {
                     page+=10;
@@ -68,13 +69,13 @@ start = ()=> {
 					// 通过 xlsx 模块将数据转化成 buffer 对象
 					let buf = xlsx.build([{name: '百度问答', data: list}]);
 					// 将 buffer 写入到 my.xlsx 中（导出）
-					fs.writeFile('健力多.xlsx', buf, (err)=> {
+					fs.writeFile('ss.xlsx', buf, (err)=> {
 					    if(err) throw err;
 					    console.log('File is saved!');
 					    // 回调获取下一页数据
 					    start();
 					});
-                } */
+                }
 
             } else {
                 console.log('Get data error !');

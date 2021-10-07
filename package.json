@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "ip-proxy-pool": "^1.2.1"
+    "ip-proxy-pool": "^1.2.1",
+    "node-xlsx": "^0.17.2",
+    "puppeteer": "^10.4.0",
+    "superagent": "^6.1.0",
+    "superagent-charset": "^1.2.0"
   }
 }

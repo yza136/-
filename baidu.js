@@ -15,7 +15,7 @@ let url="https://zhidao.baidu.com/search?word=111&ie=gbk&site=-1&sites=0&date=0&
 			const cookies ={'url': 'https://zhidao.baidu.com', 'name': 'UserName', 'value': 'xxx'}
 			
 			await page.setCookie(cookies)
-			await page.evaluate('1 + 2')
+			
 			await page.goto(url+pagenum1,{
 				referer: 'https://zhidao.baidu.com/search?lm=0&rn=10&pn=0&fr=search&ie=gbk&dyTabStr=null&word=11',
 			});
